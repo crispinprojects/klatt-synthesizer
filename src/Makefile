@@ -1,34 +1,34 @@
-#--------------------------------------------------------------
-# Formant Speech Synthesizer Makefile
-# Author: Alan Crispin <crispinalan@gmail.com> 
-# Date: January 2024
-# Changelog: 0.02 (.c files now located in src directory)
-# target is fspeak
-#----------------------------------------------------------------
+# =====================================================================================
+# Makefile for Klatt Speech Synthesizer
+# Last Updated: Monday, February 02, 2026
+# =====================================================================================
 
-CC ?= gcc
-CFLAGS = -Wall 
-LIBS = -lm 
-#MAKEFLAGS += --silent
-SRCDIR   = src
-SOURCES  := $(wildcard $(SRCDIR)/*.c)
+# Compiler and flags
+CC = gcc
+CFLAGS = -Wall -Wextra -std=c99 -g -I.
+LDFLAGS = -lm
 
-#substitution reference
-OBJECTS	:= $(SOURCES:$(SRCDIR)/%.c=$(SRCDIR)/%.o)
+# Executable name
+TARGET = synthesizer
 
-#target %.o matches any file ending in .o with filename ending in .c present
-%.o : $(SRCDIR)/%.c
-	$(CC) -c -o $(@F) $(CFLAGS)  $<
-	
-#target fspeak
-fspeak: $(OBJECTS)
-	$(CC) -o $(@F) $(OBJECTS) $(LIBS)
+# Source files
+SRCS = main.c synthesizer.c phonemes.c
 
+# Object files
+OBJS = $(SRCS:.c=.o)
+
+# The default target.
+# This will build the executable.
+all: $(TARGET)
+
+# Rule to link the object files into the final executable
+$(TARGET): $(OBJS)
+	$(CC) $(OBJS) -o $(TARGET) $(LDFLAGS)
+
+# Rule to compile each C source file into an object file
+%.o: %.c
+	$(CC) $(CFLAGS) -c $< -o $@
+
+# Rule to clean up the generated files
 clean:
-	rm -f $(OBJECTS)
-	rm -f fspeak
-
-
-
-
-
+	rm -f $(TARGET) $(OBJS) *.wav
