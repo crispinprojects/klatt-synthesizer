@@ -131,11 +131,11 @@ sudo apt install build-essential
 
 ## Compile
 
-Use the Makefile to compile. The target is "datespeak"
+Use the Makefile to compile. The target is "synthesizer"
 
 ```
 make
-./datespeak
+./synthesizer
 ```
 
 You should hear the  speech synthesizer saying the current date.
